@@ -3,7 +3,7 @@ import {useState} from 'react'
 import Checkbox from "./Checkbox"
 import NewHogForm from './NewHogForm'
 
-function FormBar( { greaseFilter, sortByFun }) {
+function FormBar( { greaseFilter, sortByFun, addHog }) {
     
     const [isChecked, setIsChecked] = useState(false)
     const [sortBy, setSortBy] = useState("all")
@@ -40,7 +40,7 @@ function FormBar( { greaseFilter, sortByFun }) {
                 isChecked={isChecked}
                 label={"Greased"}/>
             <button onClick={handleClick}>{viewForm ? 'Hide Hog Form' : 'View Hog Form'}</button>
-            {viewForm ? <NewHogForm /> : <></>}
+            {viewForm ? <NewHogForm addHog={addHog}/> : <></>}
         </div>
     )
 }

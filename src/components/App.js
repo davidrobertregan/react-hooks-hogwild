@@ -6,38 +6,45 @@ import hogs from "../porkers_data";
 
 function App() {
 
-	const [currentHogs, setCurrentHogs] = useState(hogs)
+	const displayHogs = [...hogs]
+
+	const [currentHogs, setCurrentHogs] = useState(displayHogs)
+
+	function addHog(newHog) {
+		displayHogs.push(newHog)
+		setCurrentHogs(displayHogs)
+	}
 
 	function greaseFilter(isChecked) {
-		isChecked ? setCurrentHogs(hogs.filter(hog => hog.greased === true)) :
-		setCurrentHogs(hogs)
+		isChecked ? setCurrentHogs(displayHogs.filter(hog => hog.greased === true)) :
+		setCurrentHogs(displayHogs)
 	}
 
 	function sortByFun(sortBy){
 		if (sortBy === 'all') { 
-			return setCurrentHogs(hogs) 
+			return setCurrentHogs(displayHogs) 
 		}
 		else if (sortBy === 'name') {
-			setCurrentHogs([...hogs].sort((a, b) => {
+			setCurrentHogs([...displayHogs].sort((a, b) => {
 				if(a.name < b.name) {return -1}
 				if(a.name > b.name) {return 1}
 				return 0
 			}))
 		}
 		else if (sortBy === 'weight') {
-			setCurrentHogs([...hogs].sort((a, b) => {
+			setCurrentHogs([...displayHogs].sort((a, b) => {
 				return b.weight - a.weight;
 			}))
 		}
 	}
 
-	console.log(hogs)
+	console.log(currentHogs)
 
 
 	return (
 		<div className="App">
 			<Nav />
-			<FormBar greaseFilter={greaseFilter} sortByFun={sortByFun}/>
+			<FormBar greaseFilter={greaseFilter} sortByFun={sortByFun} addHog={addHog}/>
 			<HogList hogs={currentHogs}/>
 		</div>
 	);

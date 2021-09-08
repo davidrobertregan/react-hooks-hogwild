@@ -1,8 +1,7 @@
-import { getByDisplayValue } from '@testing-library/dom'
 import {useState} from 'react'
 
 
-function NewHogForm() {
+function NewHogForm({ addHog }) {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -15,9 +14,7 @@ function NewHogForm() {
 
     function onFormChange(e) {
         let key = e.target.id
-        console.log(e.target.checked)
         if (key === 'greased') {
-            console.log('checkbox')
             setFormData({
                 ...formData,
                 [key]: e.target.checked
@@ -28,29 +25,36 @@ function NewHogForm() {
                 ...formData,
                 [key]: e.target.value
             })
+        }
     }
+
+    function onHandleSubmit(e) {
+        e.preventDefault()
+        addHog(formData)
+
     }
 
     return (
         <div id="new-hog-form" style={{margin: '50px', padding: '50px'}}>
             <h3>Submit a new hog</h3>
-            <form style={{display: "flex", flexWrap: "wrap",flexDirection: "column", justifyContent: "space-around"}}>
-                <label for="name">Name</label>
+            <form onSubmit={onHandleSubmit}style={{display: "flex", flexWrap: "wrap",flexDirection: "column", justifyContent: "space-around"}}>
+                <label>Name</label>
                     <input onChange={onFormChange} value={formData.name} id="name" type="text"></input>
-                <label for="specialty">Specialty</label>
+                <label>Specialty</label>
                     <input onChange={onFormChange} value={formData.specialty} id="specialty"type="text"></input>
-                <label for="weight">Weight</label>
+                <label>Weight</label>
                     <input onChange={onFormChange} value={formData.weight} id="weight" type="number"></input>
-                <label for="highest medal achieved">Highest Medal</label>
+                <label>Highest Medal</label>
                     <select onChange={onFormChange} value={formData['highest medal achieved']}id="highest medal achieved">
                         <option>Gold</option>
                         <option>Silver</option>
                         <option>Bronze</option>
                     </select>
-                <label for="greased">Greased?</label>
+                <label>Greased?</label>
                     <input onChange={onFormChange} checked={formData.greased} id="greased" type="checkbox"></input>
-                <label for="image">Image</label>
+                <label>Image</label>
                     <input onChange={onFormChange} value={formData.image} id="image" type="text"></input>
+                <input type="submit"></input>
             </form>
         </div>
     )
